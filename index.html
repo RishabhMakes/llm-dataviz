@@ -219,6 +219,10 @@
             border-radius: 5px;
             font-size: 14px;
             background: white;
+            max-width: 100%; /* Ensure it doesn't overflow its container */
+            width: 100%; /* Make it take up full width of its container */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Add ellipsis for long text that gets cut off */
         }
 
         @media (max-width: 768px) {
@@ -600,9 +604,9 @@
                 .data(data)
                 .enter().append('rect')
                 .attr('class', 'bar')
-                .attr('x', x(0))
+                .attr('x', 0)
                 .attr('y', d => y(d.genre))
-                .attr('width', d => Math.abs(x(d.loudness) - x(0)))
+                .attr('width', d => Math.abs(x(d.loudness) - x(d3.min(data, d => d.loudness) - 1)))
                 .attr('height', y.bandwidth())
                 .attr('fill', colors.secondary)
                 .on('mouseover', function(event, d) {
